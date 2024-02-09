@@ -1,25 +1,22 @@
-# A simple docker-compose template
+# A gitea testing suite
 
-*Date:* 2022-09-28  
+*Date:* 2024-02-09  
 *Author:* MvS  
-*keywords:* software-architecture, docker-compose
+*keywords:* GIT, code repository, postgreSQL
 
 ## Description
 
-Use as a template for a docker-compose based image builds and deployments using a
-`Makefile` and an `.env` file for customization.
+Gitea is a self-hosted Git server that allows teams to collaborate on both open-source and
+private projects. It can be used as an alternative to GitHub.
+The backend is based on a standalone postgreSQL instance.
+This test suite uses docker-compose, `Makefile` and an `.env` file functionality for customization.
 
-## Running the Docker compose pipeline
+### Initial configuration of Gitea
 
-1. Copy `.env.dist` to `.env` (no adjustments required / for future use with credentials)
-2. Run `make run-compose` and let the container for the *simple* stack come online.
-3. Use <kbd>CTRL</kbd>+<kbd>C</kbd> to shut down the stack
-4. Invoke `make clean` and `make clean stack=extended`, respectively to remove the stack
+We assume to run a standalone DB and Gitea instance in a stack with a Docker volumes
+tied to a localhost user already existing on the system.
 
-### Manual access to container
-
-Using compose:  
-`docker-compose exec <container-name> env SAMPLEPAR="testing" bash`
-
-Using docker:  
-`docker exec -it <container-name> bash`
+1. Copy the `.env-dist` to a `.env` file and edit it to match you host username.
+2. Run `docker compose up`.
+3. Navigate to `localhost:8300` via browser and click *install*.
+4. Another login page will appear where you can sign up with a new git user which will become *admin*.

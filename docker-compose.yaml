@@ -1,41 +1,51 @@
-# a sample compose file
 version: '3'
+
 services:
-  alpine:
-    build:
-      context: ./compose/refined_image
-      args:
-       - BASEIMAGE=${FIRST_BASE_IMAGE}
-    image: ${FIRST_REFINED_IMAGE_ROOT}:${STACK_VERSION}
-    container_name: ${STACK_NAME:-defstack}_alpine
-    ports:
-     - 8080:5000
-    networks:
-     - mydefaultstack
+  gtpostgres:
+    image: postgres:14.10
+    container_name: ${STACK_NAME:-defstack}_gtpostgres
+    restart: always
     environment:
-     - EXAMPLE_VAR_VERBOSE=true
-     - FLASK_DEBUG=1
-     - FLASK_APP=app.py
-     - FLASK_RUN_HOST=0.0.0.0
+      POSTGRES_DB: giteadb
+      POSTGRES_USER: gitea
+      POSTGRES_PASSWORD: giteapw
+    ports:
+     - "8432:5432"  # Map port 8432 on the host to port 5432 in the container
     volumes:
-     - ./compose/refined_image/code:/code
-    depends_on:
-     - redis
-  redis:
-    image: "redis:alpine"
-    container_name: ${STACK_NAME:-defstack}_redis
-#    ports:
-#     - 6379:6379
-#    volumes:
-#      - persistent_data:/persistent_data
+      - gtpostgres_data:/var/lib/postgresql/data
     networks:
-     - mydefaultstack
+      - mydefaultstack
+
+  gitea:
+    image: gitea/gitea:1.21.4
+    container_name: ${STACK_NAME:-defstack}_gitea
+    restart: always
+    environment:
+      - USER=${HOST_USER}
+      - USER_UID=1000
+      - USER_GID=1000
+      - DB_TYPE=postgres
+      - DB_HOST=gtpostgres:5432
+      - DB_NAME=giteadb
+      - DB_USER=gitea
+      - DB_PASSWD=giteapw
+    ports:
+      - "8300:3000"
+      - "8022:22"
+    volumes:
+      - gitea_data:/data
+    depends_on:
+      - gtpostgres
+    networks:
+      - mydefaultstack
 
 volumes:
-  persistent_data:
+  gtpostgres_data:
+    driver: local
+  gitea_data:
     driver: local
 
 networks:
   mydefaultstack:
     name: mydefaultstack
-#    external: true
+    external: true
