@@ -19,4 +19,5 @@ tied to a localhost user already existing on the system.
 1. Copy the `.env-dist` to a `.env` file and edit it to match you host username.
 2. Run `docker compose up`.
 3. Navigate to `localhost:8300` via browser and click *install*.
-4. Another login page will appear where you can sign up with a new git user which will become *admin*.
+4. (Optional) Configure load balancer to point to desired URL.
+5. Another login page will appear where you can sign up with a new git user which will become *admin*.

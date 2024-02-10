@@ -32,6 +32,10 @@ services:
     ports:
       - "8300:3000"
       - "8022:22"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.gitea.rule=Host(`gitea.${DOMAIN_NAME}`)"
+      - "traefik.http.services.gitea.loadbalancer.server.port=3000"
     volumes:
       - gitea_data:/data
     depends_on:
