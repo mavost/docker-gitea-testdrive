@@ -20,6 +20,13 @@ services:
     image: gitea/gitea:1.21.4
     container_name: ${STACK_NAME:-defstack}_gitea
     restart: always
+    depends_on:
+      - gtpostgres
+    networks:
+      - mydefaultstack
+    # command: >
+    #   /bin/sh -c "apk add --no-cache python3 py3-pip
+    #   && pip3 install nbconvert"
     environment:
       - USER=${HOST_USER}
       - USER_UID=1000
@@ -41,10 +48,6 @@ services:
     volumes:
       - gitea_data:/data
       - ${PWD}/config/app.ini:/data/gitea/custom/conf/app.ini
-    depends_on:
-      - gtpostgres
-    networks:
-      - mydefaultstack
 
 volumes:
   gtpostgres_data:
