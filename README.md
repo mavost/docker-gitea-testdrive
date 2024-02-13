@@ -32,4 +32,3 @@ and Traefik reverse proxy.
 4. Run `docker compose up`.
 5. (Optional, depending on config) Navigate to `localhost:8300` via browser and click *install*.
 6. Another login page will appear where you can sign up with a new git user which will become *admin*.
-7. test
