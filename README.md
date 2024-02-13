@@ -1,14 +1,14 @@
-# A gitea testing suite
+# A Gitea testing suite
 
 *Date:* 2024-02-09  
 *Author:* MvS  
-*keywords:* GIT, code repository, postgreSQL
+*keywords:* GIT, code repository, PostgreSQL
 
 ## Description
 
 Gitea is a self-hosted Git server that allows teams to collaborate on both open-source and
 private projects. It can be used as an alternative to GitHub.
-The backend is based on a standalone postgreSQL instance.
+The backend is based on a standalone PostgreSQL instance.
 This test suite uses docker-compose, `Makefile` and an `.env` file functionality for customization.
 
 ### Initial configuration of Gitea
