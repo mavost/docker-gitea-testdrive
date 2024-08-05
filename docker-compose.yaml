@@ -53,9 +53,13 @@ volumes:
   gtpostgres_data:
     driver: local
   gitea_data:
+    # enable when using new volume (name: docker-gitea-testdrive_gitea_data)
     driver: local
+    # enable when using pre-existing volume from migration (name: gitea_data)
+#    external: true
 
 networks:
   mydefaultstack:
     name: mydefaultstack
+    # using preexisting network from other stacks
     external: true
